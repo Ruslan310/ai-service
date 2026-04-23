@@ -3,25 +3,51 @@ import { chatJson } from "../lib/openai.js";
 import { chatJsonClaude } from "../lib/claude.js";
 
 export const analyzeDreamRouter = Router();
-const MAX_DREAM_TEXT_LENGTH = 1000;
+const MAX_DREAM_TEXT_LENGTH = 2000;
 
 const SYSTEM =
   "Return only valid JSON without markdown. Schema: {\"symbols\": [string, string, string], \"analysis\": \"short text\"}. Exactly 3 items in symbols. The analysis must include concise interpretations and practical advice.";
+
+/** Optional client field; empty / "not specified" are treated as absent. */
+const normalizeAge = (value) => {
+  if (value == null) {
+    return null;
+  }
+
+  const parsed =
+    typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim()
+        ? Number(value.trim())
+        : NaN;
+
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return null;
+  }
+
+  return parsed;
+};
+
+/** Optional client field; empty / "not specified" are treated as absent. */
+const normalizeGender = (value) => {
+  if (value == null || typeof value !== "string") {
+    return null;
+  }
+  const trimmed = value.trim();
+  if (!trimmed || trimmed.toLowerCase() === "not specified") {
+    return null;
+  }
+  return trimmed;
+};
 
 analyzeDreamRouter.post("/", async (req, res) => {
   try {
     const { dreamText, age, gender, status, mood, language, provider } =
       req.body ?? {};
 
-    if (
-      dreamText == null ||
-      age == null ||
-      gender == null ||
-      status == null ||
-      mood == null
-    ) {
+    if (dreamText == null || status == null || mood == null) {
       return res.status(400).json({
-        error: "Missing required fields: dreamText, age, gender, status, mood",
+        error: "Missing required fields: dreamText, status, mood",
       });
     }
 
@@ -48,7 +74,21 @@ analyzeDreamRouter.post("/", async (req, res) => {
         .json({ error: "provider must be either 'openai' or 'claude'" });
     }
 
-    const userPrompt = `You are an expert psychologist. Analyze the user's dream (${age} years old, ${gender}, status: ${status}). Dream text: ${dreamText}. Mood: ${mood}.
+    const ageForPrompt = normalizeAge(age);
+    const genderForPrompt = normalizeGender(gender);
+    const profileParts = [];
+
+    if (ageForPrompt != null) {
+      profileParts.push(`${ageForPrompt} years old`);
+    }
+
+    if (genderForPrompt) {
+      profileParts.push(genderForPrompt);
+    }
+
+    profileParts.push(`status: ${status}`);
+
+    const userPrompt = `You are an expert psychologist. Analyze the user's dream (${profileParts.join(", ")}). Dream text: ${dreamText}. Mood: ${mood}.
 Extract 3 key dream symbols (short words).
 Provide a brief interpretation for each symbol (1 sentence each).
 Then provide practical psychological advice (1-2 sentences, concrete).
