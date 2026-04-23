@@ -3,7 +3,7 @@ import { chatJson } from "../lib/openai.js";
 import { chatJsonClaude } from "../lib/claude.js";
 
 export const analyzeDreamRouter = Router();
-const MAX_DREAM_TEXT_LENGTH = 2000;
+const MAX_DREAM_TEXT_LENGTH = 5000;
 
 const SYSTEM =
   "Return only valid JSON without markdown. Schema: {\"symbols\": [string, string, string], \"analysis\": \"short text\"}. Exactly 3 items in symbols. The analysis must include concise interpretations and practical advice.";
