@@ -98,6 +98,12 @@ Do NOT write like a report.
 Do NOT give generic advice.
 Do NOT mention therapy or life instructions.
 
+Stay grounded in the dream itself.
+Do NOT invent life circumstances that are not clearly implied.
+
+Use user context only if it directly connects to the dream.
+Do NOT infer personality, relationships, or life situation from it.
+
 Focus on:
 - what the dream FEELS like
 - what inner state it may reflect
@@ -106,13 +112,13 @@ Focus on:
 
 Explain the dream step by step, as if you are guiding the person through it.
 
-Make the interpretation feel personally relevant to the user, even if details are limited.
-Use gentle assumptions that could resonate emotionally.
+Be specific, but avoid over-interpretation.
+Avoid sounding authoritative — speak in possibilities, not facts.
 
-Avoid vague phrases. Be specific and grounded.
+Make the tone natural, clear, slightly informal, and emotionally intelligent.
 
 Include:
-- one strong, concise insight that feels unexpectedly accurate
+- one strong, concise insight that feels precise and grounded in the dream
 - one short reflective question at the end
 
 Dream:
@@ -121,12 +127,11 @@ ${dreamText}
 Mood:
 ${mood}
 
-User context (if relevant, use subtly, do not mention explicitly):
+User context (optional, subtle use only):
 ${profileParts.join(", ")}
 
-Write in ${outputLanguage}.
-Keep it natural, clear and slightly informal.
-`;
+Write in ${outputLanguage}.`;
+
     const parsed =
       selectedProvider === "claude"
         ? await chatJsonClaude({
