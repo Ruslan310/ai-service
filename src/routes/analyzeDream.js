@@ -160,7 +160,7 @@ Write in ${outputLanguage}.
                 ? parsed.analysis
                 : "";
 
-    res.json({ symbols, reflection });
+    res.json({ symbols, analysis: reflection });
   } catch (err) {
     if (
       err.message === "OPENAI_API_KEY is not set" ||
