@@ -11,13 +11,17 @@ Return only valid JSON without markdown.
 Schema:
 {
   "symbols": [string, string, string],
-  "analysis": string
+  "reflection": string
 }
 
 Rules:
 - symbols must contain exactly 3 short phrases
-- analysis must be concise (5-8 sentences max)
-- analysis must NOT mention relationships, marriage, spouse, partner, or similar topics unless explicitly present in the dream text
+- symbols should be intuitive and human, not clinical labels
+- reflection must feel like a natural, human explanation (not a psychological report)
+- reflection must stay within the dream experience
+- reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
+- reflection must NOT give advice or instructions
+- keep reflection concise (4-6 sentences)
 `;
 
 /** Optional client field; empty / "not specified" are treated as absent. */
@@ -106,6 +110,7 @@ Interpret this dream in a natural, human way, like you're gently helping someone
 IMPORTANT:
 - Stay strictly within the dream content
 - Do NOT assume anything about the user's real life
+- Do NOT interpret the dream as a metaphor for real life situations
 - Do NOT generalize to relationships or personal life situations
 - Avoid sounding like a psychologist or giving structured analysis
 
@@ -154,10 +159,14 @@ Write in ${outputLanguage}.
       symbols.push("—");
     }
 
-    const analysis =
-      typeof parsed.analysis === "string" ? parsed.analysis : "";
+    const reflection =
+        typeof parsed.reflection === "string"
+            ? parsed.reflection
+            : typeof parsed.analysis === "string"
+                ? parsed.analysis
+                : "";
 
-    res.json({ symbols, analysis });
+    res.json({ symbols, reflection });
   } catch (err) {
     if (
       err.message === "OPENAI_API_KEY is not set" ||
