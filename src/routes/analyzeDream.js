@@ -88,12 +88,45 @@ analyzeDreamRouter.post("/", async (req, res) => {
 
     profileParts.push(`status: ${status}`);
 
-    const userPrompt = `You are an expert psychologist. Analyze the user's dream (${profileParts.join(", ")}). Dream text: ${dreamText}. Mood: ${mood}.
-Extract 3 key dream symbols (short words).
-Provide a brief interpretation for each symbol (1 sentence each).
-Then provide practical psychological advice (1-2 sentences, concrete).
-Return the result in this language: ${outputLanguage}.`;
+    const userPrompt = `
+You are not a clinical psychologist.
+You are someone who deeply understands people and emotions.
 
+Analyze the following dream in a human, intuitive and conversational way.
+
+Do NOT write like a report.
+Do NOT give generic advice.
+Do NOT mention therapy or life instructions.
+
+Focus on:
+- what the dream FEELS like
+- what inner state it may reflect
+- subtle emotional meaning behind symbols
+- emotional contradictions (e.g. calm + anxiety)
+
+Explain the dream step by step, as if you are guiding the person through it.
+
+Make the interpretation feel personally relevant to the user, even if details are limited.
+Use gentle assumptions that could resonate emotionally.
+
+Avoid vague phrases. Be specific and grounded.
+
+Include:
+- one strong, concise insight that feels unexpectedly accurate
+- one short reflective question at the end
+
+Dream:
+${dreamText}
+
+Mood:
+${mood}
+
+User context (if relevant, use subtly, do not mention explicitly):
+${profileParts.join(", ")}
+
+Write in ${outputLanguage}.
+Keep it natural, clear and slightly informal.
+`;
     const parsed =
       selectedProvider === "claude"
         ? await chatJsonClaude({
