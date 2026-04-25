@@ -101,6 +101,7 @@ Do NOT mention therapy or life instructions.
 STRICT RULES:
 - Do NOT infer real-life situations (relationships, job, personality traits).
 - Do NOT invent or assume anything about the user's life.
+- Do NOT use phrases like "in your life", "as a person", "as a man", "in relationships", "in marriage".
 - Stay grounded only in the dream experience.
 - Avoid general life conclusions.
 
@@ -127,9 +128,6 @@ ${dreamText}
 
 Mood:
 ${mood}
-
-User context (ignore unless directly relevant to the dream):
-${profileParts.join(", ")}
 
 Write in ${outputLanguage}.
 `;
