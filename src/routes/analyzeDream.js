@@ -97,7 +97,7 @@ Return the result in this language: ${outputLanguage}.`;
     const parsed =
       selectedProvider === "claude"
         ? await chatJsonClaude({
-            model: "claude-haiku-4-5-20251001",
+            model: "claude-sonnet-4-6",
             system: SYSTEM,
             user: userPrompt,
           })
