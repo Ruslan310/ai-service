@@ -110,20 +110,30 @@ Interpret this dream in a natural, human way, like you're gently helping someone
 IMPORTANT:
 - Stay grounded in the dream experience
 - Do NOT make specific assumptions about the user's real life (no relationships, job, etc)
-- Avoid generic or cliché psychological phrases
-- Do NOT sound like a therapist or formal analysis
+- Do NOT generalize to real-life situations
+- Avoid sounding like a psychologist or formal analysis
+- Avoid generic or cliché phrases
 
 Focus on:
 - the emotional atmosphere of the dream
 - what the experience felt like from inside
-- what inner state it may reflect (gently, without over-asserting)
 - subtle meaning behind symbols
+- emotional contradictions (e.g. calm + anxiety)
 
 Allow intuitive interpretation, but speak in possibilities, not conclusions.
 
 Write as if you're talking to a person, not writing a report.
 
-Avoid phrases like "this represents your life", "self-discovery", "inner world".
+Be slightly more direct and specific — avoid phrases like:
+"this creates a feeling", "this may suggest", "this could indicate"
+
+Instead, describe the experience more naturally and confidently.
+
+Include:
+- one moment of sharper, more direct insight that feels personally accurate (but still grounded in the dream)
+
+Keep the tone:
+calm, thoughtful, slightly informal, emotionally intelligent.
 
 Dream:
 ${dreamText}
