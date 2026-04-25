@@ -98,11 +98,11 @@ Do NOT write like a report.
 Do NOT give generic advice.
 Do NOT mention therapy or life instructions.
 
-Stay grounded in the dream itself.
-Do NOT invent life circumstances that are not clearly implied.
-
-Use user context only if it directly connects to the dream.
-Do NOT infer personality, relationships, or life situation from it.
+STRICT RULES:
+- Do NOT infer real-life situations (relationships, job, personality traits).
+- Do NOT invent or assume anything about the user's life.
+- Stay grounded only in the dream experience.
+- Avoid general life conclusions.
 
 Focus on:
 - what the dream FEELS like
@@ -113,12 +113,13 @@ Focus on:
 Explain the dream step by step, as if you are guiding the person through it.
 
 Be specific, but avoid over-interpretation.
-Avoid sounding authoritative — speak in possibilities, not facts.
+Speak in possibilities, not conclusions.
 
-Make the tone natural, clear, slightly informal, and emotionally intelligent.
+Tone:
+Natural, clear, slightly informal, emotionally intelligent.
 
 Include:
-- one strong, concise insight that feels precise and grounded in the dream
+- one strong, concise insight grounded in the dream
 - one short reflective question at the end
 
 Dream:
@@ -127,10 +128,11 @@ ${dreamText}
 Mood:
 ${mood}
 
-User context (optional, subtle use only):
+User context (ignore unless directly relevant to the dream):
 ${profileParts.join(", ")}
 
-Write in ${outputLanguage}.`;
+Write in ${outputLanguage}.
+`;
 
     const parsed =
       selectedProvider === "claude"
