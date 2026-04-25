@@ -101,19 +101,20 @@ analyzeDreamRouter.post("/", async (req, res) => {
     profileParts.push(`status: ${status}`);
 
     const userPrompt = `
-Interpret this dream in a natural, human way.
+Interpret this dream in a natural, human way, like you're gently helping someone understand what they felt.
 
 IMPORTANT:
 - Stay strictly within the dream content
 - Do NOT assume anything about the user's real life
 - Do NOT generalize to relationships or personal life situations
+- Avoid sounding like a psychologist or giving structured analysis
 
 Focus on:
 - emotional atmosphere of the dream
-- internal feelings reflected by the dream
-- symbolic meaning grounded in the dream itself
+- what the experience felt like from inside
+- subtle emotional meaning of symbols (without over-explaining)
 
-Write clearly and simply, without sounding like a report.
+Write as a calm, thoughtful explanation, not a report.
 
 Dream:
 ${dreamText}
@@ -124,18 +125,24 @@ ${mood}
 Write in ${outputLanguage}.
 `;
 
-    const parsed =
-      selectedProvider === "claude"
-        ? await chatJsonClaude({
-            model: "claude-sonnet-4-6",
-            system: SYSTEM,
-            user: userPrompt,
-          })
-        : await chatJson({
-            model: "gpt-4o-mini",
-            system: SYSTEM,
-            user: userPrompt,
-          });
+    // const parsed =
+    //   selectedProvider === "claude"
+    //     ? await chatJsonClaude({
+    //         model: "claude-sonnet-4-6",
+    //         system: SYSTEM,
+    //         user: userPrompt,
+    //       })
+    //     : await chatJson({
+    //         model: "gpt-4o",
+    //         system: SYSTEM,
+    //         user: userPrompt,
+    //       });
+
+    const parsed = await chatJson({
+              model: "gpt-4o",
+              system: SYSTEM,
+              user: userPrompt,
+            });
 
     let symbols = Array.isArray(parsed.symbols) ? parsed.symbols : [];
 
