@@ -15,13 +15,13 @@ Schema:
 }
 
 Rules:
-- symbols must contain exactly 3 short phrases
+- symbols must contain exactly 3-4 short phrases
 - symbols should be intuitive and human, not clinical labels
 - reflection must feel like a natural, human explanation (not a psychological report)
 - reflection must stay within the dream experience
 - reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
 - reflection must NOT give advice or instructions
-- keep reflection concise (6-8 sentences)
+- keep reflection concise (8-10 sentences)
 `;
 
 /** Optional client field; empty / "not specified" are treated as absent. */
@@ -108,9 +108,9 @@ analyzeDreamRouter.post("/", async (req, res) => {
 Interpret this dream in a natural, human way, like you're gently helping someone understand what they felt.
 
 IMPORTANT:
-- Stay grounded in the dream experience
+- Stay grounded in the dream itself
 - Do NOT make specific assumptions about the user's real life (no relationships, job, etc)
-- Do NOT generalize to real-life situations
+- Do NOT generalize to life situations outside the dream
 - Avoid sounding like a psychologist or formal analysis
 - Avoid generic or cliché phrases
 
@@ -118,22 +118,19 @@ Focus on:
 - the emotional atmosphere of the dream
 - what the experience felt like from inside
 - subtle meaning behind symbols
-- emotional contradictions (e.g. calm + anxiety)
+- emotional contrasts (e.g. calm + anxiety)
 
 Allow intuitive interpretation, but speak in possibilities, not conclusions.
 
-Write as if you're talking to a person, not writing a report.
-
-Be slightly more direct and specific — avoid phrases like:
-"this creates a feeling", "this may suggest", "this could indicate"
-
-Instead, describe the experience more naturally and confidently.
+STYLE:
+- Write like you're talking to a person, not writing a report
+- Be clear and slightly informal
+- Avoid phrases like: "this creates a feeling", "this may suggest", "this could indicate"
+- Don't over-soften insights
 
 Include:
-- one moment of sharper, more direct insight that feels personally accurate (but still grounded in the dream)
-
-Keep the tone:
-calm, thoughtful, slightly informal, emotionally intelligent.
+- one sharper, more direct insight that feels personally accurate (but still grounded in the dream)
+- keep the whole response concise (5–7 sentences max)
 
 Dream:
 ${dreamText}
