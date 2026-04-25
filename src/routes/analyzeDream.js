@@ -5,8 +5,20 @@ import { chatJsonClaude } from "../lib/claude.js";
 export const analyzeDreamRouter = Router();
 const MAX_DREAM_TEXT_LENGTH = 5000;
 
-const SYSTEM =
-  "Return only valid JSON without markdown. Schema: {\"symbols\": [string, string, string], \"analysis\": \"short text\"}. Exactly 3 items in symbols. The analysis must include concise interpretations and practical advice.";
+const SYSTEM = `
+Return only valid JSON without markdown.
+
+Schema:
+{
+  "symbols": [string, string, string],
+  "analysis": string
+}
+
+Rules:
+- symbols must contain exactly 3 short phrases
+- analysis must be concise (5-8 sentences max)
+- analysis must NOT mention relationships, marriage, spouse, partner, or similar topics unless explicitly present in the dream text
+`;
 
 /** Optional client field; empty / "not specified" are treated as absent. */
 const normalizeAge = (value) => {
@@ -89,39 +101,19 @@ analyzeDreamRouter.post("/", async (req, res) => {
     profileParts.push(`status: ${status}`);
 
     const userPrompt = `
-You are not a clinical psychologist.
-You are someone who deeply understands people and emotions.
+Interpret this dream in a natural, human way.
 
-Analyze the following dream in a human, intuitive and conversational way.
-
-Do NOT write like a report.
-Do NOT give generic advice.
-Do NOT mention therapy or life instructions.
-
-STRICT RULES:
-- Do NOT infer real-life situations (relationships, job, personality traits).
-- Do NOT invent or assume anything about the user's life.
-- Do NOT use phrases like "in your life", "as a person", "as a man", "in relationships", "in marriage".
-- Stay grounded only in the dream experience.
-- Avoid general life conclusions.
+IMPORTANT:
+- Stay strictly within the dream content
+- Do NOT assume anything about the user's real life
+- Do NOT generalize to relationships or personal life situations
 
 Focus on:
-- what the dream FEELS like
-- what inner state it may reflect
-- subtle emotional meaning behind symbols
-- emotional contradictions (e.g. calm + anxiety)
+- emotional atmosphere of the dream
+- internal feelings reflected by the dream
+- symbolic meaning grounded in the dream itself
 
-Explain the dream step by step, as if you are guiding the person through it.
-
-Be specific, but avoid over-interpretation.
-Speak in possibilities, not conclusions.
-
-Tone:
-Natural, clear, slightly informal, emotionally intelligent.
-
-Include:
-- one strong, concise insight grounded in the dream
-- one short reflective question at the end
+Write clearly and simply, without sounding like a report.
 
 Dream:
 ${dreamText}
