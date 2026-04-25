@@ -108,18 +108,22 @@ analyzeDreamRouter.post("/", async (req, res) => {
 Interpret this dream in a natural, human way, like you're gently helping someone understand what they felt.
 
 IMPORTANT:
-- Stay strictly within the dream content
-- Do NOT assume anything about the user's real life
-- Do NOT interpret the dream as a metaphor for real life situations
-- Do NOT generalize to relationships or personal life situations
-- Avoid sounding like a psychologist or giving structured analysis
+- Stay grounded in the dream experience
+- Do NOT make specific assumptions about the user's real life (no relationships, job, etc)
+- Avoid generic or cliché psychological phrases
+- Do NOT sound like a therapist or formal analysis
 
 Focus on:
-- emotional atmosphere of the dream
+- the emotional atmosphere of the dream
 - what the experience felt like from inside
-- subtle emotional meaning of symbols (without over-explaining)
+- what inner state it may reflect (gently, without over-asserting)
+- subtle meaning behind symbols
 
-Write as a calm, thoughtful explanation, not a report.
+Allow intuitive interpretation, but speak in possibilities, not conclusions.
+
+Write as if you're talking to a person, not writing a report.
+
+Avoid phrases like "this represents your life", "self-discovery", "inner world".
 
 Dream:
 ${dreamText}
