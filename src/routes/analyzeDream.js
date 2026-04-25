@@ -21,7 +21,7 @@ Rules:
 - reflection must stay within the dream experience
 - reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
 - reflection must NOT give advice or instructions
-- keep reflection concise (4-6 sentences)
+- keep reflection concise (6-8 sentences)
 `;
 
 /** Optional client field; empty / "not specified" are treated as absent. */
@@ -130,24 +130,18 @@ ${mood}
 Write in ${outputLanguage}.
 `;
 
-    // const parsed =
-    //   selectedProvider === "claude"
-    //     ? await chatJsonClaude({
-    //         model: "claude-sonnet-4-6",
-    //         system: SYSTEM,
-    //         user: userPrompt,
-    //       })
-    //     : await chatJson({
-    //         model: "gpt-4o",
-    //         system: SYSTEM,
-    //         user: userPrompt,
-    //       });
-
-    const parsed = await chatJson({
-              model: "gpt-4o",
-              system: SYSTEM,
-              user: userPrompt,
-            });
+    const parsed =
+      selectedProvider === "claude"
+        ? await chatJsonClaude({
+            model: "claude-sonnet-4-6",
+            system: SYSTEM,
+            user: userPrompt,
+          })
+        : await chatJson({
+            model: "gpt-4o",
+            system: SYSTEM,
+            user: userPrompt,
+          });
 
     let symbols = Array.isArray(parsed.symbols) ? parsed.symbols : [];
 
