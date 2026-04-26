@@ -105,32 +105,21 @@ analyzeDreamRouter.post("/", async (req, res) => {
     profileParts.push(`status: ${status}`);
 
     const userPrompt = `
-Interpret this dream in a natural, human way, like you're gently helping someone understand what they felt.
+Interpret the dream as if you're gently talking to the dreamer.
 
-IMPORTANT:
-- Stay grounded in the dream itself
-- Do NOT make specific assumptions about the user's real life (no relationships, job, etc)
-- Do NOT generalize to life situations outside the dream
-- Avoid sounding like a psychologist or formal analysis
-- Avoid generic or cliché phrases
+Do not retell the plot. Focus only on what the experience felt like from inside the dream.
 
-Focus on:
-- the emotional atmosphere of the dream
-- what the experience felt like from inside
-- subtle meaning behind symbols
-- emotional contrasts (e.g. calm + anxiety)
+Stay within the dream itself. Do not connect it to real-life situations.
 
-Allow intuitive interpretation, but speak in possibilities, not conclusions.
+Pay attention to emotional shifts and contrasts (e.g. safety vs tension, control vs confusion), and reflect on why certain moments or details feel important.
 
-STYLE:
-- Write like you're talking to a person, not writing a report
-- Be clear and slightly informal
-- Avoid phrases like: "this creates a feeling", "this may suggest", "this could indicate"
-- Don't over-soften insights
+Write in a natural, human tone. No formal analysis, no generic phrases.
 
-Include:
-- one sharper, more direct insight that feels personally accurate (but still grounded in the dream)
-- keep the whole response concise (5–7 sentences max)
+Speak in possibilities, not conclusions.
+
+Include one slightly sharper insight that feels a bit more direct and personal, but still grounded only in the dream.
+
+Keep it concise (5–7 sentences).
 
 Dream:
 ${dreamText}
@@ -138,7 +127,8 @@ ${dreamText}
 Mood:
 ${mood}
 
-Write in ${outputLanguage}.
+Language:
+${outputLanguage}
 `;
 
     const parsed =
