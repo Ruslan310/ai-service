@@ -105,21 +105,29 @@ analyzeDreamRouter.post("/", async (req, res) => {
     profileParts.push(`status: ${status}`);
 
     const userPrompt = `
-Interpret the dream as if you're gently talking to the dreamer.
+Explain the dream in a clear, grounded, slightly bold way — like you're walking the person through it and not afraid to connect the dots.
 
-Do not retell the plot. Focus only on what the experience felt like from inside the dream.
+Do NOT retell the dream. Focus on interpreting the key elements.
 
-Stay within the dream itself. Do not connect it to real-life situations.
+Structure the response:
+- short intro (1–2 lines, slightly informal tone)
+- then break down 4–6 important elements from the dream
+- for each element:
+  * name it clearly
+  * explain what it represents in simple terms
+  * connect it to an internal state or feeling
 
-Pay attention to emotional shifts and contrasts (e.g. safety vs tension, control vs confusion), and reflect on why certain moments or details feel important.
+You ARE allowed to:
+- carefully connect the dream to the dreamer’s inner state
+- make grounded, human interpretations (not abstract or vague)
+- be a bit direct when something feels obvious
 
-Write in a natural, human tone. No formal analysis, no generic phrases.
+Avoid:
+- generic phrases
+- overly soft or “safe” wording
+- formal psychological language
 
-Speak in possibilities, not conclusions.
-
-Include one slightly sharper insight that feels a bit more direct and personal, but still grounded only in the dream.
-
-Keep it concise (5–7 sentences).
+End with a short, honest summary that pulls everything together in a direct way.
 
 Dream:
 ${dreamText}
