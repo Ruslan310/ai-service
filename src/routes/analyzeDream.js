@@ -3,9 +3,9 @@ import { chatJson } from "../lib/openai.js";
 import { chatJsonClaude } from "../lib/claude.js";
 
 export const analyzeDreamRouter = Router();
-const MAX_DREAM_TEXT_LENGTH = 5000;
+const MAX_DREAM_TEXT_LENGTH = 10000;
 
-const SYSTEM = `
+const SYSTEM_FREE = `
 Return only valid JSON without markdown.
 
 Schema:
@@ -15,13 +15,38 @@ Schema:
 }
 
 Rules:
-- symbols must contain exactly 3-4 short phrases
-- symbols should be intuitive and human, not clinical labels
-- reflection must feel like a natural, human explanation (not a psychological report)
+- symbols must contain exactly 3 short, simple phrases
+- keep symbols obvious and surface-level
+- reflection must be simple, clear, and grounded in the dream events
+- avoid deep interpretation or layered meaning
+- keep emotional tone light and general
+- do not explore hidden motives or subconscious patterns
 - reflection must stay within the dream experience
 - reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
 - reflection must NOT give advice or instructions
-- keep reflection concise (8-10 sentences)
+- keep reflection concise (4-6 sentences)
+`;
+
+const SYSTEM_PREMIUM = `
+Return only valid JSON without markdown.
+
+Schema:
+{
+  "symbols": [string, string, string, string],
+  "reflection": string
+}
+
+Rules:
+- symbols must contain exactly 4 intuitive and expressive phrases
+- symbols should capture emotional and symbolic layers, not just objects
+- reflection must feel immersive, introspective, and emotionally rich
+- explore subtle meanings, inner tension, and shifting feelings within the dream
+- connect symbols together into a coherent inner narrative
+- allow slightly poetic language, but keep it natural and human
+- reflection must stay within the dream experience
+- reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
+- reflection must NOT give advice or instructions
+- keep reflection concise (10-14 sentences)
 `;
 
 /** Optional client field; empty / "not specified" are treated as absent. */
@@ -58,7 +83,7 @@ const normalizeGender = (value) => {
 
 analyzeDreamRouter.post("/", async (req, res) => {
   try {
-    const { dreamText, age, gender, status, mood, language, provider } =
+    const { dreamText, age, gender, status, mood, language, provider, premium } =
       req.body ?? {};
 
     if (dreamText == null || status == null || mood == null) {
@@ -138,17 +163,18 @@ ${mood}
 Language:
 ${outputLanguage}
 `;
+    const systemParams = premium ? SYSTEM_PREMIUM : SYSTEM_FREE;
 
     const parsed =
       selectedProvider === "claude"
         ? await chatJsonClaude({
             model: "claude-sonnet-4-6",
-            system: SYSTEM,
+            system: systemParams,
             user: userPrompt,
           })
         : await chatJson({
             model: "gpt-4o",
-            system: SYSTEM,
+            system: systemParams,
             user: userPrompt,
           });
 
