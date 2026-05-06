@@ -5,49 +5,7 @@ import { chatJsonClaude } from "../lib/claude.js";
 export const analyzeDreamRouter = Router();
 const MAX_DREAM_TEXT_LENGTH = 10000;
 
-const SYSTEM_FREE = `
-Return only valid JSON without markdown.
 
-Schema:
-{
-  "symbols": [string, string, string],
-  "reflection": string
-}
-
-Rules:
-- symbols must contain exactly 3 short, simple phrases
-- keep symbols obvious and surface-level
-- reflection must be simple, clear, and grounded in the dream events
-- avoid deep interpretation or layered meaning
-- keep emotional tone light and general
-- do not explore hidden motives or subconscious patterns
-- reflection must stay within the dream experience
-- reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
-- reflection must NOT give advice or instructions
-- keep reflection concise (4-6 sentences)
-`;
-
-const SYSTEM_PREMIUM = `
-Return only valid JSON without markdown.
-
-Schema:
-{
-  "symbols": [string, string, string, string],
-  "reflection": string
-}
-
-Rules:
-- symbols must contain exactly 4 intuitive and expressive phrases
-- symbols should capture emotional and symbolic layers, not just objects
-- reflection must feel immersive, introspective, and emotionally rich
-- explore subtle meanings, inner tension, and shifting feelings within the dream
-- connect symbols together into a coherent inner narrative
-- allow slightly poetic language, but keep it natural and human
-- reflection must stay within the dream experience
-- reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
-- reflection must NOT give advice or instructions
-- keep reflection concise (10-14 sentences)
-`;
 
 /** Optional client field; empty / "not specified" are treated as absent. */
 const normalizeAge = (value) => {
@@ -128,6 +86,52 @@ analyzeDreamRouter.post("/", async (req, res) => {
     }
 
     profileParts.push(`status: ${status}`);
+
+    const SYSTEM_FREE = `
+Return only valid JSON without markdown.
+
+Schema:
+{
+  "symbols": [string, string, string],
+  "reflection": string
+}
+
+Rules:
+- symbols must contain exactly 3 short, simple phrases
+- keep symbols obvious and surface-level
+- reflection must be simple, clear, and grounded in the dream events
+- avoid deep interpretation or layered meaning
+- keep emotional tone light and general
+- do not explore hidden motives or subconscious patterns
+- reflection must stay within the dream experience
+- reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
+- reflection must NOT give advice or instructions
+- keep reflection concise (4-6 sentences)
+You must write every symbol and the reflection in ${outputLanguage}.
+`;
+
+    const SYSTEM_PREMIUM = `
+Return only valid JSON without markdown.
+
+Schema:
+{
+  "symbols": [string, string, string, string],
+  "reflection": string
+}
+
+Rules:
+- symbols must contain exactly 4 intuitive and expressive phrases
+- symbols should capture emotional and symbolic layers, not just objects
+- reflection must feel immersive, introspective, and emotionally rich
+- explore subtle meanings, inner tension, and shifting feelings within the dream
+- connect symbols together into a coherent inner narrative
+- allow slightly poetic language, but keep it natural and human
+- reflection must stay within the dream experience
+- reflection must NOT mention relationships, marriage, spouse, partner, or real-life assumptions unless explicitly present in the dream
+- reflection must NOT give advice or instructions
+- keep reflection concise (10-14 sentences)
+You must write every symbol and the reflection in ${outputLanguage}.
+`;
 
     const userPrompt = `
 Explain the dream in a clear, grounded, slightly bold way — like you're walking the person through it and not afraid to connect the dots.
