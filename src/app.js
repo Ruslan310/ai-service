@@ -2,6 +2,9 @@ import express from "express";
 import { rateLimit } from "express-rate-limit";
 import { apiRouter } from "./routes/index.js";
 
+const jsonDefault = express.json({ limit: "1mb" });
+const jsonLarge = express.json({ limit: "180mb" });
+
 export function createApp() {
   const app = express();
   const limiter = rateLimit({
@@ -13,7 +16,12 @@ export function createApp() {
   });
 
   app.use(limiter);
-  app.use(express.json({ limit: "1mb" }));
+  app.use((req, res, next) => {
+    if (req.path.startsWith("/analyze-image")) {
+      return jsonLarge(req, res, next);
+    }
+    return jsonDefault(req, res, next);
+  });
   app.use("/", apiRouter);
   return app;
 }
