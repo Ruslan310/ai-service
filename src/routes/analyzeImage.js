@@ -1,5 +1,10 @@
 import { Router } from "express";
 import JSZip from "jszip";
+import {
+  pickEditApiSize,
+  readImageDimensions,
+  resizeToSourceDimensions,
+} from "../lib/imageAspect.js";
 import { editImageBase64 } from "../lib/openai.js";
 import { OPENAI_VISION_MODEL_IDS } from "../lib/openaiVisionModels.js";
 
@@ -24,23 +29,17 @@ const MIME_TO_EXT = {
 
 const QUALITY_PRESETS = {
   low: {
-    outputSize: "512x512",
-    apiSize: "auto",
     quality: "low",
-    model: "gpt-image-1-mini"
+    model: "gpt-image-1-mini",
   },
   medium: {
-    outputSize: "768x768",
-    apiSize: "auto",
     quality: "medium",
-    model: "gpt-image-1"
+    model: "gpt-image-1",
   },
   high: {
-    outputSize: "1024x1024",
-    apiSize: "auto",
     quality: "high",
-    model: "gpt-image-1"
-  }
+    model: "gpt-image-1",
+  },
 };
 
 const BASE_ENHANCEMENT_PROMPT = `
@@ -198,9 +197,13 @@ analyzeImageRouter.post("/", async (req, res) => {
         });
       }
 
+      const { width, height } = await readImageDimensions(buf);
+
       normalizedImages.push({
         imageBase64: normalizedB64,
         mimeType: rawMime,
+        width,
+        height,
       });
     }
 
@@ -225,16 +228,22 @@ analyzeImageRouter.post("/", async (req, res) => {
 
     const results = await Promise.all(
       normalizedImages.map(async (image, i) => {
+        const apiSize = pickEditApiSize(image.width, image.height);
         const enhancedBase64 = await editImageBase64({
           model: selectedPreset.model,
           prompt: fullPrompt,
           imageBase64: image.imageBase64,
           mimeType: image.mimeType,
-          size: selectedPreset.apiSize,
+          size: apiSize,
           quality: selectedPreset.quality,
           outputFormat: "jpeg",
         });
-        const outputBuffer = Buffer.from(enhancedBase64, "base64");
+        let outputBuffer = Buffer.from(enhancedBase64, "base64");
+        outputBuffer = await resizeToSourceDimensions(
+          outputBuffer,
+          image.width,
+          image.height
+        );
         const originalExt = MIME_TO_EXT[image.mimeType] ?? "jpg";
         return { i, outputBuffer, originalExt };
       })
