@@ -64,10 +64,18 @@ Hard constraints:
 const BASE_REAL_ESTATE_LISTING_PROMPT = `
 Real estate listing photo edit — strict documentary fidelity.
 
+TOP PRIORITY (overrides style and user wishes):
+- Documentary evidence, not a redesign. If unsure, leave source pixels unchanged.
+- Never add ceiling lights, recessed cans, pendants, tracks, cords, chandeliers, flush mounts, or LED panels absent from the source.
+- Never add, remove, or move electrical outlets, switch plates, sockets, or wall ports; preserve exact count, size, and position.
+- Never change floor material, color, sheen, plank/tile size, pattern, grout lines, wood grain direction, or surface transitions.
+- Style or additional wishes must not justify new fixtures, outlets, or floor finishes — only global tone and exposure.
+
 Absolute rules:
 - Never add, remove, relocate, replace, merge, or "clean up" any visible object (furniture, built-ins, appliances, range hoods, sinks, faucets, decor, plants, vehicles, people, pets, signage, light switches, outlets, door hardware, window frames, blinds, curtains, mirrors, art, rugs, bins, or outdoor elements).
-- Never change the number, shape, length, or position of light fixtures (recessed cans, pendants, tracks, cords, chandeliers) or ceiling details; never remove a fixture or invent a new one.
-- Never change floor material, tile pattern, plank direction, grout lines, transitions between surfaces, or thresholds.
+- Never change the number, shape, length, or position of any light fixture or ceiling detail; never remove a fixture or invent a new one.
+- Never repaint or "upgrade" ceilings in a way that implies new lighting was installed.
+- Never change floor material, tile pattern, plank direction, grout lines, transitions, or thresholds; no stylized wood/tile replacement.
 - Never alter wall or ceiling planes, room corners, window count, door count, or cabinet layout.
 - Do not invent staging, fake window views, or altered square footage impressions.
 - Do not re-render or replace regions — no hallucinated pixels where real objects exist.
@@ -77,7 +85,7 @@ Allowed adjustments only:
 - Mild noise reduction and sharpening that preserves real texture and edges
 - Very cautious vertical correction only if it does not warp fixtures, cabinets, or straight architectural lines
 
-If any change would risk altering a real object or layout, skip it and leave that area identical to the source image.
+If any change would risk altering ceiling lights, outlets, flooring, or layout, skip it and leave that area identical to the source image.
 `;
 
 analyzeImageRouter.get("/models", (_req, res) => {
